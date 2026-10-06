@@ -1,16 +1,32 @@
 <!doctype html>
 <html lang="zh-Hant">
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Hitron HW">
-<link rel="manifest" href="manifest.webmanifest">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<meta name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+content="default">
+
+<meta name="apple-mobile-web-app-title"
+content="Hitron HW">
+
+<link rel="manifest"
+href="manifest.webmanifest">
+
 <title>Hitron Hardware Query</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box
+}
 
 body{
 margin:0;
@@ -145,11 +161,15 @@ font-size:13px
 }
 
 @media(min-width:620px){
+
 .grid{
 grid-template-columns:1fr 1fr
 }
+
 }
+
 </style>
+
 </head>
 
 <body>
@@ -161,6 +181,11 @@ grid-template-columns:1fr 1fr
 <script>
 
 const app=document.getElementById("app");
+
+
+/* =========================
+   LOGIN
+========================= */
 
 function login(){
 
@@ -191,7 +216,9 @@ autocomplete="current-password">
 <div
 id="err"
 style="color:#c62828;margin-top:10px;display:none">
+
 密碼錯誤
+
 </div>
 
 <p
@@ -210,12 +237,9 @@ style="font-size:12px;margin-top:16px">
 
 document.getElementById("go").onclick=()=>{
 
-/*
-目前先使用內建測試密碼。
-正式公司帳號驗證之後再接。
-*/
-
-if(document.getElementById("pw").value==="hitron-demo"){
+if(
+document.getElementById("pw").value==="hitron-demo"
+){
 
 sessionStorage.ok="1";
 
@@ -242,6 +266,10 @@ document.getElementById("go").click();
 }
 
 
+/* =========================
+   HARDWARE QUERY
+========================= */
+
 function query(){
 
 app.innerHTML=`
@@ -267,25 +295,31 @@ Model 搜尋
 <button
 class="logout"
 id="out">
+
 登出
+
 </button>
 
 </div>
+
 
 <input
 class="search"
 id="s"
 placeholder="🔎 輸入 Model，例如 CODA6011UV">
 
+
 <select id="m"></select>
 
 </div>
+
 
 <div id="detail"></div>
 
 </div>
 
 `;
+
 
 document.getElementById("out").onclick=()=>{
 
@@ -295,45 +329,37 @@ login();
 
 };
 
+
 const s=document.getElementById("s");
 
 const m=document.getElementById("m");
 
 
+/* 搜尋 Model */
+
 function fill(){
 
 let q=s.value.trim().toLowerCase();
 
+
 let a=HITRON_DATA.filter(x=>
 
-(x.model||"").toLowerCase().includes(q)
+(x.model||"")
+.toLowerCase()
+.includes(q)
 
 ||
 
-(x.Product||"").toLowerCase().includes(q)
+(x.Product||"")
+.toLowerCase()
+.includes(q)
 
 );
 
-m.innerHTML=a.map(x=>
 
-`<option value="${HITRON_DATA.indexOf(x)}">
+if(a.length===0){
 
-${x.model}
-
-</option>`
-
-).join("");
-
-show();
-
-}
-
-
-function show(){
-
-let x=HITRON_DATA[+m.value];
-
-if(!x){
+m.innerHTML="";
 
 document.getElementById("detail").innerHTML=`
 
@@ -346,6 +372,46 @@ document.getElementById("detail").innerHTML=`
 請確認 Model 名稱。
 
 </p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+m.innerHTML=a.map(x=>
+
+`<option value="${HITRON_DATA.indexOf(x)}">
+
+${x.model}
+
+</option>`
+
+).join("");
+
+
+show();
+
+}
+
+
+/* 顯示 Hardware */
+
+function show(){
+
+let x=HITRON_DATA[+m.value];
+
+
+if(!x){
+
+document.getElementById("detail").innerHTML=`
+
+<div class="card">
+
+<h2>找不到資料</h2>
 
 </div>
 
@@ -378,6 +444,7 @@ ${x.model}
 ${x.Product||""}
 
 </p>
+
 
 <div class="grid">
 
@@ -415,6 +482,10 @@ fill();
 }
 
 
+/* =========================
+   START
+========================= */
+
 if(sessionStorage.ok==="1"){
 
 query();
@@ -426,6 +497,10 @@ login();
 }
 
 
+/* =========================
+   SERVICE WORKER
+========================= */
+
 if("serviceWorker" in navigator){
 
 navigator.serviceWorker.register("sw.js");
@@ -435,4 +510,5 @@ navigator.serviceWorker.register("sw.js");
 </script>
 
 </body>
+
 </html>
