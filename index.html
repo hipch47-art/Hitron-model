@@ -4,551 +4,226 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Hitron Hardware Query">
-<title>Hitron Hardware Query</title>
-
+<meta name="apple-mobile-web-app-title" content="Hardware Query">
+<title>Hardware Query</title>
 <link rel="manifest" href="manifest.webmanifest">
-
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
- background:#f4f6f8;
- color:#222;
-}
-header{
- background:#17365d;
- color:white;
- padding:22px 18px;
- font-size:23px;
- font-weight:700;
-}
-.container{
- max-width:900px;
- margin:auto;
- padding:18px;
-}
-.login{
- min-height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:20px;
-}
-.loginBox{
- width:100%;
- max-width:400px;
- background:white;
- padding:30px;
- border-radius:18px;
- box-shadow:0 8px 30px #0002;
-}
-.loginBox h1{
- margin-top:0;
-}
-input,select,button{
- width:100%;
- padding:14px;
- margin-top:10px;
- border-radius:10px;
- border:1px solid #ccd3dc;
- font-size:16px;
-}
-button{
- background:#1769aa;
- color:white;
- border:0;
- font-weight:700;
-}
-.error{
- color:#d32f2f;
- margin-top:10px;
-}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f6f8;color:#222}
+header{background:#17365d;color:#fff;padding:22px 18px;font-size:23px;font-weight:700}
+.container{max-width:900px;margin:auto;padding:18px}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.loginBox{width:100%;max-width:400px;background:#fff;padding:30px;border-radius:18px;box-shadow:0 8px 30px #0002}
+.loginBox h1{margin-top:0}
+input,select,button{width:100%;padding:14px;margin-top:10px;border-radius:10px;border:1px solid #ccd3dc;font-size:16px}
+button{background:#1769aa;color:#fff;border:0;font-weight:700}
+.error{color:#d32f2f;margin-top:10px}
 .hidden{display:none}
-
-.searchBox{
- background:white;
- padding:15px;
- border-radius:14px;
- box-shadow:0 3px 12px #0001;
-}
-.section{
- margin-top:20px;
-}
-.sectionTitle{
- font-size:18px;
- font-weight:800;
- padding:12px 4px;
-}
-.card{
- background:white;
- margin:8px 0;
- padding:12px 15px;
- border-radius:12px;
- box-shadow:0 2px 8px #0001;
-}
-.label{
- font-size:12px;
- color:#777;
-}
-.value{
- font-size:16px;
- font-weight:600;
- margin-top:3px;
- word-break:break-word;
-}
-.combo{
- background:linear-gradient(135deg,#17365d,#2467a5);
- color:white;
- padding:18px;
- border-radius:16px;
- margin-top:18px;
- box-shadow:0 5px 18px #0003;
-}
-.combo h2{
- margin:0 0 14px;
- font-size:20px;
-}
-.comboGrid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;
-}
-.comboItem{
- background:#ffffff18;
- border:1px solid #ffffff30;
- border-radius:10px;
- padding:10px;
-}
-.comboLabel{
- font-size:12px;
- opacity:.75;
-}
-.comboValue{
- margin-top:4px;
- font-weight:700;
- word-break:break-word;
-}
-
-@media(max-width:600px){
- .comboGrid{grid-template-columns:1fr}
-}
+.panel{background:#fff;padding:18px;border-radius:14px;box-shadow:0 3px 12px #0001;margin-bottom:16px}
+.menuGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.menuBtn{min-height:130px;font-size:20px;background:#fff;color:#17365d;border:2px solid #d8e0ea;box-shadow:0 3px 12px #0001}
+.menuBtn span{display:block;font-size:38px;margin-bottom:8px}
+.back{background:#eef2f6;color:#263247;margin-top:0;margin-bottom:14px}
+.section{margin-top:20px}
+.sectionTitle{font-size:18px;font-weight:800;padding:12px 4px}
+.card{background:#fff;margin:8px 0;padding:12px 15px;border-radius:12px;box-shadow:0 2px 8px #0001}
+.label{font-size:12px;color:#777}
+.value{font-size:16px;font-weight:600;margin-top:3px;word-break:break-word;white-space:pre-wrap}
+.combo{background:linear-gradient(135deg,#17365d,#2467a5);color:#fff;padding:18px;border-radius:16px;margin-top:18px;box-shadow:0 5px 18px #0003}
+.combo h2{margin:0 0 14px;font-size:20px}
+.comboGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.comboItem{background:#ffffff18;border:1px solid #ffffff30;border-radius:10px;padding:10px}
+.comboLabel{font-size:12px;opacity:.75}
+.comboValue{margin-top:4px;font-weight:700;word-break:break-word;white-space:pre-wrap}
+.resultCount{font-size:14px;color:#687386;margin-top:10px}
+.partResult{cursor:pointer}
+.partResult:hover{background:#f5f8fc}
+.small{font-size:13px;color:#687386}
+@media(max-width:600px){.menuGrid,.comboGrid{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
 <div id="loginPage" class="login">
  <div class="loginBox">
   <h1>🔐 Hardware Query</h1>
-  <p>Hitron Hardware Database</p>
-
-  <input id="password"
-         type="password"
-         placeholder="請輸入密碼"
-         onkeydown="if(event.key==='Enter')login()">
-
+  <p>部門硬體資料查詢</p>
+  <input id="password" type="password" placeholder="請輸入密碼"
+   onkeydown="if(event.key==='Enter')login()">
   <button onclick="login()">登入</button>
-
   <div id="loginError" class="error"></div>
  </div>
 </div>
 
-<!-- MAIN -->
 <div id="mainPage" class="hidden">
-
-<header>
- 📱 Hitron Hardware Query
-</header>
-
+<header>🔧 Hardware Query</header>
 <div class="container">
-
- <div class="searchBox">
-
-  <div style="font-size:18px;font-weight:700">
-   🔎 Model 搜尋
+ <div id="home">
+  <div class="panel">
+   <h2>請選擇查詢項目</h2>
+   <div class="menuGrid">
+    <button class="menuBtn" onclick="showProduct()"><span>📦</span>產品查詢</button>
+    <button class="menuBtn" onclick="showPart()"><span>🏷️</span>料號查詢</button>
+   </div>
   </div>
-
-  <input
-   id="search"
-   placeholder="輸入 Model，例如 CODA6011UV"
-   oninput="searchModel()">
-
-  <select id="modelSelect" onchange="showModel()">
-   <option value="">請選擇 Model</option>
-  </select>
-
  </div>
 
- <div id="result"></div>
+ <div id="productPage" class="hidden">
+  <button class="back" onclick="goHome()">← 回首頁</button>
+  <div class="panel">
+   <h2>📦 產品查詢</h2>
+   <input id="modelSearch" placeholder="🔎 輸入 Model，例如 CODA6011UV" oninput="searchModel()">
+   <select id="modelSelect" onchange="showModel()"><option value="">請選擇 Model</option></select>
+  </div>
+  <div id="productResult"></div>
+ </div>
 
+ <div id="partPage" class="hidden">
+  <button class="back" onclick="goHome()">← 回首頁</button>
+  <div class="panel">
+   <h2>🏷️ 料號查詢</h2>
+   <input id="partSearch" placeholder="🔎 輸入料號或 Description" oninput="searchPart()">
+   <div id="partCount" class="resultCount"></div>
+  </div>
+  <div id="partResult"></div>
+ </div>
 </div>
 </div>
 
 <script src="data.js"></script>
-
+<script src="parts.js"></script>
 <script>
-
 const PASSWORD="hitron-demo";
-
-let models=[];
-
-/* ---------------- LOGIN ---------------- */
+let models=Array.isArray(window.HITRON_DATA)?window.HITRON_DATA:[];
+let parts=Array.isArray(window.PARTS_DATA)?window.PARTS_DATA:[];
+let partTimer=null;
 
 function login(){
-
  const pw=document.getElementById("password").value;
-
  if(pw===PASSWORD){
-
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("mainPage").classList.remove("hidden");
-
-  loadModels();
-
+  goHome();
  }else{
-
-  document.getElementById("loginError").textContent=
-   "❌ 密碼錯誤";
-
+  document.getElementById("loginError").textContent="❌ 密碼錯誤";
  }
 }
 
-
-/* ---------------- DATA ---------------- */
-
-function getData(){
-
- if(typeof HITRON_DATA==="undefined"){
-  return null;
- }
-
- return HITRON_DATA;
+function hidePages(){
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("productPage").classList.add("hidden");
+ document.getElementById("partPage").classList.add("hidden");
 }
-
-
-/* ---------------- LOAD MODELS ---------------- */
+function goHome(){
+ hidePages();
+ document.getElementById("home").classList.remove("hidden");
+}
+function showProduct(){
+ hidePages();
+ document.getElementById("productPage").classList.remove("hidden");
+ loadModels();
+ document.getElementById("modelSearch").focus();
+}
+function showPart(){
+ hidePages();
+ document.getElementById("partPage").classList.remove("hidden");
+ document.getElementById("partSearch").focus();
+}
 
 function loadModels(){
-
- const data=getData();
-
- if(!data){
-
-  document.getElementById("result").innerHTML=
-   '<div class="card error">❌ 無法載入 data.js</div>';
-
-  return;
- }
-
- models=Array.isArray(data)
-  ? data
-  : Object.entries(data).map(([key,value])=>{
-
-     if(value && typeof value==="object"){
-      return {
-       Model:value.Model || value.model || key,
-       ...value
-      };
-     }
-
-     return {
-      Model:key,
-      Product:value
-     };
-
-    });
-
  const select=document.getElementById("modelSelect");
-
- select.innerHTML=
-  '<option value="">請選擇 Model</option>';
-
+ select.innerHTML='<option value="">請選擇 Model</option>';
  models.forEach((m,i)=>{
-
-  const model=
-   m.Model ||
-   m.model ||
-   m.MODEL ||
-   m.Product ||
-   `Model ${i+1}`;
-
-  const option=document.createElement("option");
-
-  option.value=i;
-  option.textContent=model;
-
-  select.appendChild(option);
-
+  const o=document.createElement("option");
+  o.value=i;o.textContent=m.model||m.Model||m.Product||("Model "+(i+1));
+  select.appendChild(o);
  });
 }
-
-
-/* ---------------- SEARCH ---------------- */
-
 function searchModel(){
-
- const keyword=
-  document.getElementById("search").value
-  .trim()
-  .toLowerCase();
-
+ const q=document.getElementById("modelSearch").value.trim().toLowerCase();
  const select=document.getElementById("modelSelect");
-
- if(!keyword){
-
-  select.value="";
-  document.getElementById("result").innerHTML="";
-  return;
- }
-
- const index=models.findIndex(m=>
-
-  Object.values(m).some(v=>
-   String(v??"").toLowerCase().includes(keyword)
-  )
-
- );
-
- if(index>=0){
-
-  select.value=index;
-  showModel();
-
- }else{
-
-  select.value="";
-
-  document.getElementById("result").innerHTML=
-   '<div class="card">找不到符合的 Model</div>';
-
- }
+ if(!q){select.value="";document.getElementById("productResult").innerHTML="";return}
+ const i=models.findIndex(m=>Object.values(m).some(v=>String(v??"").toLowerCase().includes(q)));
+ if(i>=0){select.value=i;showModel()}
+ else{select.value="";document.getElementById("productResult").innerHTML='<div class="card">找不到符合的 Model</div>'}
 }
-
-
-/* ---------------- SHOW MODEL ---------------- */
-
 function showModel(){
-
- const index=
-  document.getElementById("modelSelect").value;
-
- if(index===""){
-  document.getElementById("result").innerHTML="";
-  return;
- }
-
- const data=models[index];
-
- render(data);
+ const i=document.getElementById("modelSelect").value;
+ if(i===""){document.getElementById("productResult").innerHTML="";return}
+ renderProduct(models[i]);
 }
-
-
-/* ---------------- CATEGORY ---------------- */
 
 function category(key){
-
  const k=key.toLowerCase();
-
- if(
-  k.includes("product") ||
-  k==="model"
- ) return "model";
-
- if(
-  k.includes("processor") ||
-  k.includes("cpu") ||
-  k.includes("memory") ||
-  k.includes("ddr") ||
-  k.includes("ram") ||
-  k.includes("flash") ||
-  k.includes("pga")
- ) return "processing";
-
- if(
-  k.includes("tuner") ||
-  k.includes("diplexer") ||
-  k.includes("rf") ||
-  k.includes("docsis") ||
-  k.includes("phy") ||
-  k.includes("qam") ||
-  k.includes("upstream") ||
-  k.includes("downstream") ||
-  k.includes("forward") ||
-  k.includes("return")
- ) return "rf";
-
- if(
-  k.includes("wifi") ||
-  k.includes("wlan") ||
-  k.includes("lan") ||
-  k.includes("ethernet") ||
-  k.includes("voice") ||
-  k.includes("fxs") ||
-  k.includes("usb") ||
-  k.includes("bluetooth")
- ) return "connectivity";
-
- return "other";
+ if(k.includes("product")||k==="model")return"model";
+ if(k.includes("processor")||k.includes("cpu")||k.includes("memory")||k.includes("ddr")||k.includes("ram")||k.includes("flash")||k.includes("pga"))return"processing";
+ if(k.includes("tuner")||k.includes("diplexer")||k.includes("rf")||k.includes("docsis")||k.includes("phy")||k.includes("qam")||k.includes("upstream")||k.includes("downstream")||k.includes("forward")||k.includes("return"))return"rf";
+ if(k.includes("wifi")||k.includes("wlan")||k.includes("lan")||k.includes("ethernet")||k.includes("voice")||k.includes("fxs")||k.includes("usb")||k.includes("bluetooth"))return"connectivity";
+ return"other";
 }
-
-
-/* ---------------- HARDWARE COMBO ---------------- */
-
 function findValue(data,words){
-
- const key=Object.keys(data).find(k=>
-  words.some(w=>k.toLowerCase().includes(w))
- );
-
- return key ? data[key] : "-";
+ const key=Object.keys(data).find(k=>words.some(w=>k.toLowerCase().includes(w)));
+ return key?data[key]:"-";
 }
-
-
 function hardwareCombo(data){
-
- const cpu=findValue(data,["processor","cpu"]);
- const tuner=findValue(data,["tuner"]);
- const pga=findValue(data,["pga"]);
- const memory=findValue(data,["memory","ddr","ram"]);
- const diplexer=findValue(data,["diplexer"]);
- const wifi=findValue(data,["wifi","wlan"]);
- const lan=findValue(data,["lan","ethernet"]);
- const voice=findValue(data,["voice","fxs"]);
-
- return `
- <div class="combo">
-
-  <h2>🔧 Hardware 組合</h2>
-
-  <div class="comboGrid">
-
-   <div class="comboItem">
-    <div class="comboLabel">CPU / PROCESSOR</div>
-    <div class="comboValue">${safe(cpu)}</div>
-   </div>
-
-   <div class="comboItem">
-    <div class="comboLabel">TUNER</div>
-    <div class="comboValue">${safe(tuner)}</div>
-   </div>
-
-   <div class="comboItem">
-    <div class="comboLabel">PGA</div>
-    <div class="comboValue">${safe(pga)}</div>
-   </div>
-
-   <div class="comboItem">
-    <div class="comboLabel">MEMORY</div>
-    <div class="comboValue">${safe(memory)}</div>
-   </div>
-
-   <div class="comboItem">
-    <div class="comboLabel">RF / DIPLEXER</div>
-    <div class="comboValue">${safe(diplexer)}</div>
-   </div>
-
-   <div class="comboItem">
-    <div class="comboLabel">WIFI</div>
-    <div class="comboValue">${safe(wifi)}</div>
-   </div>
-
-   <div class="comboItem">
-    <div class="comboLabel">LAN</div>
-    <div class="comboValue">${safe(lan)}</div>
-   </div>
-
-   <div class="comboItem">
-    <div class="comboLabel">VOICE</div>
-    <div class="comboValue">${safe(voice)}</div>
-   </div>
-
-  </div>
- </div>
- `;
+ const items=[
+  ["CPU / PROCESSOR",findValue(data,["processor","cpu"])],
+  ["TUNER",findValue(data,["tuner"])],
+  ["PGA",findValue(data,["pga"])],
+  ["MEMORY",findValue(data,["memory","ddr","ram"])],
+  ["RF / DIPLEXER",findValue(data,["diplexer"])],
+  ["WIFI",Object.entries(data).filter(([k])=>/wifi/i.test(k)).map(([,v])=>v).filter(Boolean).join(" / ")||"-"],
+  ["LAN",Object.entries(data).filter(([k])=>/lan|ethernet/i.test(k)).map(([,v])=>v).filter(Boolean).join(" / ")||"-"],
+  ["VOICE",findValue(data,["voice","fxs"])]
+ ];
+ return '<div class="combo"><h2>🔧 Hardware 組合</h2><div class="comboGrid">'+items.map(x=>`<div class="comboItem"><div class="comboLabel">${x[0]}</div><div class="comboValue">${safe(x[1])}</div></div>`).join("")+'</div></div>';
 }
-
-
-/* ---------------- RENDER ---------------- */
-
-function render(data){
-
- const groups={
-  model:[],
-  processing:[],
-  rf:[],
-  connectivity:[],
-  other:[]
- };
-
- Object.entries(data).forEach(([key,value])=>{
-
-  if(
-   value===null ||
-   value===undefined ||
-   value===""
-  ) return;
-
-  groups[category(key)].push([key,value]);
-
- });
-
- let html="";
-
- const titles={
-  model:"📦 Model Information",
-  processing:"⚙️ Processing",
-  rf:"📡 RF / DOCSIS",
-  connectivity:"📶 Connectivity",
-  other:"🔧 Other Hardware"
- };
-
- Object.keys(groups).forEach(group=>{
-
-  if(!groups[group].length) return;
-
-  html+=`
-   <div class="section">
-    <div class="sectionTitle">
-     ${titles[group]}
-    </div>
-  `;
-
-  groups[group].forEach(([key,value])=>{
-
-   html+=`
-    <div class="card">
-     <div class="label">${safe(key)}</div>
-     <div class="value">${safe(value)}</div>
-    </div>
-   `;
-
-  });
-
+function renderProduct(data){
+ const groups={model:[],processing:[],rf:[],connectivity:[],other:[]};
+ Object.entries(data).forEach(([k,v])=>{if(v!==null&&v!==undefined&&v!=="")groups[category(k)].push([k,v])});
+ const titles={model:"📦 Model Information",processing:"⚙️ Processing",rf:"📡 RF / DOCSIS",connectivity:"📶 Connectivity",other:"🔧 Other Hardware"};
+ let html=hardwareCombo(data);
+ Object.keys(groups).forEach(g=>{
+  if(!groups[g].length)return;
+  html+=`<div class="section"><div class="sectionTitle">${titles[g]}</div>`;
+  groups[g].forEach(([k,v])=>html+=`<div class="card"><div class="label">${safe(k)}</div><div class="value">${safe(v)}</div></div>`);
   html+="</div>";
-
  });
-
- document.getElementById("result").innerHTML=
-  hardwareCombo(data)+html;
+ document.getElementById("productResult").innerHTML=html;
 }
 
-
-/* ---------------- SAFE HTML ---------------- */
-
-function safe(value){
-
- return String(value??"")
-  .replace(/&/g,"&amp;")
-  .replace(/</g,"&lt;")
-  .replace(/>/g,"&gt;")
-  .replace(/"/g,"&quot;")
-  .replace(/'/g,"&#039;");
+function searchPart(){
+ clearTimeout(partTimer);
+ partTimer=setTimeout(runPartSearch,120);
 }
-
+function runPartSearch(){
+ const q=document.getElementById("partSearch").value.trim().toLowerCase();
+ const box=document.getElementById("partResult");
+ const count=document.getElementById("partCount");
+ if(!q){box.innerHTML="";count.textContent="";return}
+ const hits=parts.filter(p=>
+  String(p["Part Number"]||"").toLowerCase().includes(q)||
+  String(p["Description"]||"").toLowerCase().includes(q)||
+  String(p["廠商料號MPN"]||"").toLowerCase().includes(q)||
+  String(p["廠商名稱"]||"").toLowerCase().includes(q)
+ );
+ count.textContent=`找到 ${hits.length.toLocaleString()} 筆${hits.length>100?"，顯示前 100 筆":""}`;
+ if(!hits.length){box.innerHTML='<div class="card">找不到符合的料號或 Description</div>';return}
+ box.innerHTML=hits.slice(0,100).map(p=>`
+  <div class="card partResult" onclick='showPartDetail(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
+   <div class="value">${safe(p["Part Number"])}</div>
+   <div class="small">${safe(p["Description"])}</div>
+  </div>`).join("");
+}
+function showPartDetail(p){
+ const fields=["Part Number","Description","廠商料號MPN","廠商名稱"];
+ document.getElementById("partResult").innerHTML=
+  '<button class="back" onclick="runPartSearch()">← 回搜尋結果</button>'+
+  fields.map(k=>`<div class="card"><div class="label">${safe(k)}</div><div class="value">${safe(p[k]||"-")}</div></div>`).join("");
+}
+function safe(v){
+ return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
 </script>
-
 </body>
 </html>
