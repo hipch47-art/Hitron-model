@@ -2,61 +2,51 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Hitron HW">
+<meta name="apple-mobile-web-app-title" content="Hitron Hardware Query">
+
 <link rel="manifest" href="manifest.webmanifest">
+
 <title>Hitron Hardware Query</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+ box-sizing:border-box;
+}
 
 body{
  margin:0;
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
  background:#f3f5f8;
- color:#172033
+ color:#172033;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 .wrap{
  max-width:760px;
  margin:auto;
- padding:20px 14px 50px
+ padding:18px 14px 50px;
 }
 
 .card{
- background:#fff;
+ background:white;
  border-radius:20px;
  padding:18px;
- box-shadow:0 5px 20px #00000010;
- margin-bottom:14px
-}
-
-h1{
- font-size:26px;
- margin:5px 0 8px
-}
-
-h2{
- font-size:20px;
- margin:0
-}
-
-.muted{
- color:#687386
+ margin-bottom:14px;
+ box-shadow:0 5px 20px rgba(0,0,0,.06);
 }
 
 .login{
- min-height:85vh;
+ min-height:90vh;
  display:flex;
  align-items:center;
- justify-content:center
+ justify-content:center;
 }
 
 .login .card{
  width:100%;
- max-width:430px
+ max-width:430px;
 }
 
 .logo{
@@ -64,164 +54,170 @@ h2{
  height:64px;
  border-radius:18px;
  background:#0b5cff;
- color:#fff;
- font-size:38px;
- font-weight:800;
+ color:white;
  display:flex;
  align-items:center;
  justify-content:center;
- margin-bottom:16px
+ font-size:38px;
+ font-weight:800;
+ margin-bottom:15px;
 }
 
-input,select,button{
- width:100%;
- height:50px;
- border:1px solid #d9dee8;
- border-radius:14px;
- padding:0 14px;
- font-size:17px;
- background:#fff
+h1{
+ font-size:28px;
+ margin:5px 0 8px;
 }
 
-button{
- background:#0b5cff;
- color:#fff;
- border:0;
+h2{
+ margin:0;
+}
+
+.muted{
+ color:#687386;
+}
+
+.badge{
+ display:inline-block;
+ padding:7px 12px;
+ border-radius:999px;
+ background:#eaf1ff;
+ color:#0b5cff;
  font-weight:700;
- margin-top:10px
 }
 
 .top{
  display:flex;
  justify-content:space-between;
  align-items:center;
- gap:10px
+ gap:10px;
+}
+
+input,
+select,
+button{
+ width:100%;
+ height:50px;
+ border-radius:14px;
+ border:1px solid #d9dee8;
+ background:white;
+ padding:0 14px;
+ font-size:17px;
+}
+
+input{
+ margin-top:15px;
+}
+
+button{
+ margin-top:10px;
+ border:0;
+ background:#0b5cff;
+ color:white;
+ font-weight:700;
 }
 
 .logout{
  width:auto;
- padding:0 16px;
+ margin:0;
  background:#eef2f7;
  color:#263247;
- margin:0
-}
-
-.search{
- margin:14px 0
-}
-
-.badge{
- display:inline-block;
- background:#eaf1ff;
- color:#0b5cff;
- border-radius:999px;
- padding:7px 12px;
- font-weight:700;
- font-size:14px
 }
 
 .model-title{
  font-size:30px;
  font-weight:800;
- margin-top:5px
+ margin-bottom:5px;
 }
 
 .section{
- margin-top:20px
+ margin-top:22px;
 }
 
 .section-title{
  font-size:20px;
  font-weight:800;
- margin-bottom:10px
-}
-
-.grid{
- display:grid;
- grid-template-columns:1fr;
- gap:8px
+ margin-bottom:10px;
 }
 
 .hw{
  border:1px solid #e0e5ed;
  border-radius:14px;
  padding:12px 14px;
- background:#fff
+ margin-bottom:8px;
+ background:white;
 }
 
-.hw b{
- display:block;
- font-size:13px;
+.hw-label{
  color:#687386;
- margin-bottom:5px
+ font-size:13px;
+ font-weight:700;
+ margin-bottom:5px;
 }
 
-.hw div{
- word-break:break-word;
+.hw-value{
+ font-size:16px;
  line-height:1.45;
- font-size:16px
+ white-space:pre-line;
+ word-break:break-word;
 }
 
 /* Hardware 組合 */
 
 .combo{
- border-radius:18px;
- background:linear-gradient(135deg,#f4f7ff,#ffffff);
+ margin-top:20px;
  border:1px solid #dce5ff;
+ border-radius:18px;
  padding:16px;
- margin-top:18px
+ background:#f7f9ff;
 }
 
 .combo-title{
  font-size:21px;
  font-weight:800;
- margin-bottom:13px
-}
-
-.combo-grid{
- display:grid;
- grid-template-columns:1fr;
- gap:9px
+ margin-bottom:12px;
 }
 
 .combo-item{
- background:#fff;
+ background:white;
  border:1px solid #e0e5ed;
  border-radius:13px;
- padding:11px 13px
+ padding:12px;
+ margin-bottom:8px;
 }
 
 .combo-label{
+ color:#687386;
  font-size:12px;
  font-weight:700;
- color:#687386;
- margin-bottom:4px
+ margin-bottom:4px;
 }
 
 .combo-value{
- font-size:15px;
- line-height:1.4;
- word-break:break-word
+ font-size:16px;
+ line-height:1.45;
+ white-space:pre-line;
+ word-break:break-word;
 }
 
-.combo-wide{
- grid-column:1/-1
-}
-
-.empty{
- text-align:center;
- padding:25px
+.error{
+ background:#fff0f0;
+ color:#b42318;
+ border:1px solid #ffd0d0;
+ border-radius:14px;
+ padding:15px;
 }
 
 @media(min-width:620px){
 
- .grid{
-  grid-template-columns:1fr 1fr
- }
+.hw-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+}
 
- .combo-grid{
-  grid-template-columns:1fr 1fr
- }
+.hw-grid .hw{
+ margin-bottom:0;
+}
 
 }
 
@@ -232,652 +228,656 @@ button{
 
 <div id="app"></div>
 
-<script src="data.js"></script>
+<script src="./data.js"></script>
 
 <script>
+
+/* =========================
+   基本安全處理
+========================= */
+
+function safe(value){
+
+ return String(value ?? "")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   檢查資料
+========================= */
+
+const app=document.getElementById("app");
+
+if(!Array.isArray(window.HITRON_DATA)){
+
+ app.innerHTML=`
+
+ <div class="wrap">
+
+  <div class="card">
+
+   <h1>⚠️ 資料載入失敗</h1>
+
+   <p class="muted">
+   data.js 沒有正確載入。
+   </p>
+
+   <div class="error">
+   請重新整理頁面。
+   </div>
+
+  </div>
+
+ </div>
+
+ `;
+
+ throw new Error("HITRON_DATA not loaded");
+
+}
+
 
 /* =========================
    LOGIN
 ========================= */
 
-const app=document.getElementById("app");
-
 function login(){
 
-app.innerHTML=`
+ app.innerHTML=`
 
-<div class="wrap login">
+ <div class="wrap login">
 
-<div class="card">
+  <div class="card">
 
-<div class="logo">H</div>
+   <div class="logo">H</div>
 
-<h1>Hitron Hardware Query</h1>
+   <h1>Hitron Hardware Query</h1>
 
-<p class="muted">
-公司硬體資料查詢
-</p>
+   <p class="muted">
+   公司硬體資料查詢
+   </p>
 
-<input
- id="pw"
- type="password"
- placeholder="輸入查詢密碼">
+   <input
+    id="password"
+    type="password"
+    placeholder="輸入查詢密碼">
 
-<button id="go">
-登入
-</button>
+   <button id="loginButton">
+    登入
+   </button>
 
-<div id="err"
- style="color:#c62828;margin-top:9px;display:none">
-密碼錯誤
-</div>
+   <div id="loginError"
+    style="display:none;color:#c62828;margin-top:10px">
+    密碼錯誤
+   </div>
 
-<p class="muted"
- style="font-size:12px;margin-top:15px">
-🔐 Hardware Query System
-</p>
+  </div>
 
-</div>
-</div>
-`;
+ </div>
 
-document.getElementById("go").onclick=()=>{
+ `;
 
-if(document.getElementById("pw").value==="hitron-demo"){
 
-sessionStorage.ok="1";
-query();
+ document.getElementById("loginButton").onclick=()=>{
 
-}else{
+  const pw=document.getElementById("password").value;
 
-document.getElementById("err").style.display="block";
+  if(pw==="hitron-demo"){
 
-}
+   sessionStorage.setItem("hitronLogin","1");
 
-};
+   showQuery();
 
-document.getElementById("pw").onkeydown=e=>{
+  }else{
 
-if(e.key==="Enter")
-document.getElementById("go").click();
+   document.getElementById("loginError").style.display="block";
 
-};
+  }
+
+ };
+
+
+ document.getElementById("password").onkeydown=e=>{
+
+  if(e.key==="Enter"){
+
+   document.getElementById("loginButton").click();
+
+  }
+
+ };
 
 }
 
 
 /* =========================
-   QUERY
+   分類
 ========================= */
 
-function query(){
+function category(key){
 
-app.innerHTML=`
-
-<div class="wrap">
-
-<div class="card">
-
-<div class="top">
-
-<div>
-
-<span class="badge">
-Hardware Query
-</span>
-
-<h1>
-Model 搜尋
-</h1>
-
-</div>
-
-<button class="logout" id="out">
-登出
-</button>
-
-</div>
-
-<input
- class="search"
- id="search"
- placeholder="🔎 輸入 Model，例如 CODA6011UV">
-
-<select id="model"></select>
-
-</div>
-
-<div id="detail"></div>
-
-</div>
-`;
-
-document.getElementById("out").onclick=()=>{
-
-sessionStorage.removeItem("ok");
-login();
-
-};
-
-const search=document.getElementById("search");
-const model=document.getElementById("model");
-const detail=document.getElementById("detail");
+ const k=key
+  .toLowerCase()
+  .replace(/[\s_-]/g,"");
 
 
-/* =========================
-   SEARCH
-========================= */
+ if(k==="product")
+  return "model";
 
-function fill(){
 
-const q=search.value.trim().toLowerCase();
+ if(
+  k.includes("processor") ||
+  k.includes("cpu") ||
+  k.includes("tuner") ||
+  k.includes("pga") ||
+  k.includes("memory") ||
+  k.includes("ddr") ||
+  k.includes("ram") ||
+  k.includes("flash")
+ )
+  return "processing";
 
-const list=HITRON_DATA.filter(x=>
 
-(x.model||"").toLowerCase().includes(q) ||
+ if(
+  k.includes("diplexer") ||
+  k.includes("rf") ||
+  k.includes("docsis") ||
+  k.includes("phy") ||
+  k.includes("qam") ||
+  k.includes("upstream") ||
+  k.includes("downstream") ||
+  k.includes("fwd") ||
+  k.includes("return")
+ )
+  return "rf";
 
-(x.Product||"").toLowerCase().includes(q)
 
-);
+ if(
+  k.includes("wifi") ||
+  k.includes("wlan") ||
+  k.includes("lan") ||
+  k.includes("ethernet") ||
+  k.includes("voice") ||
+  k.includes("fxs") ||
+  k.includes("usb") ||
+  k.includes("bluetooth")
+ )
+  return "connectivity";
 
-if(!list.length){
 
-model.innerHTML="";
-
-detail.innerHTML=`
-
-<div class="card empty">
-
-<h2>
-找不到資料
-</h2>
-
-<p class="muted">
-請確認 Model 或 Product。
-</p>
-
-</div>
-`;
-
-return;
+ return "other";
 
 }
 
-model.innerHTML=list.map(x=>
 
-`<option value="${HITRON_DATA.indexOf(x)}">
-${safe(x.model)}
-</option>`
+function categoryTitle(type){
 
-).join("");
+ if(type==="model")
+  return "📦 Model Information";
 
-show();
+ if(type==="processing")
+  return "⚙️ Processing";
+
+ if(type==="rf")
+  return "📡 RF / DOCSIS";
+
+ if(type==="connectivity")
+  return "📶 Connectivity";
+
+ return "🔧 Other Hardware";
 
 }
 
 
 /* =========================
-   CATEGORY
-========================= */
-
-function getCategory(key){
-
-const k=key.toLowerCase().replace(/[\s_-]/g,"");
-
-if(k==="product")
-return "model";
-
-if(
- k.includes("processor") ||
- k.includes("cpu") ||
- k.includes("tuner") ||
- k.includes("pga") ||
- k.includes("memory") ||
- k.includes("ddr") ||
- k.includes("ram") ||
- k.includes("flash")
-)
-return "processing";
-
-if(
- k.includes("diplexer") ||
- k.includes("rf") ||
- k.includes("docsis") ||
- k.includes("phy") ||
- k.includes("qam") ||
- k.includes("upstream") ||
- k.includes("downstream") ||
- k.includes("fwd") ||
- k.includes("return")
-)
-return "rf";
-
-if(
- k.includes("wifi") ||
- k.includes("wlan") ||
- k.includes("lan") ||
- k.includes("ethernet") ||
- k.includes("voice") ||
- k.includes("fxs") ||
- k.includes("usb") ||
- k.includes("bluetooth")
-)
-return "connectivity";
-
-return "other";
-
-}
-
-
-/* =========================
-   SECTION TITLE
-========================= */
-
-function title(type){
-
-if(type==="model")
-return "📦 Model Information";
-
-if(type==="processing")
-return "⚙️ Processing";
-
-if(type==="rf")
-return "📡 RF / DOCSIS";
-
-if(type==="connectivity")
-return "📶 Connectivity";
-
-return "🔧 Other Hardware";
-
-}
-
-
-/* =========================
-   HTML SAFE
-========================= */
-
-function safe(value){
-
-return String(value)
-
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;")
-
-.replace(/\n/g,"<br>");
-
-}
-
-
-/* =========================
-   HARDWARE 組合
+   Hardware 組合
 ========================= */
 
 function hardwareCombo(x){
 
-const items=[];
+ const keys=[
 
+  ["Processor","🧠 CPU / PROCESSOR"],
 
-/* Processor */
+  ["Tuner","📡 TUNER"],
 
-if(x.Processor){
+  ["PGA","🔧 PGA"],
 
-items.push(`
-<div class="combo-item">
+  ["Memory","💾 MEMORY"],
 
-<div class="combo-label">
-CPU / PROCESSOR
-</div>
+  ["Diplexer","📻 RF / DIPLEXER"]
 
-<div class="combo-value">
-${safe(x.Processor)}
-</div>
+ ];
 
-</div>
-`);
 
-}
+ let html="";
 
+ keys.forEach(item=>{
 
-/* Tuner */
+  const key=item[0];
+  const label=item[1];
 
-if(x.Tuner){
+  if(x[key]){
 
-items.push(`
-<div class="combo-item">
+   html+=`
 
-<div class="combo-label">
-TUNER
-</div>
+   <div class="combo-item">
 
-<div class="combo-value">
-${safe(x.Tuner)}
-</div>
+    <div class="combo-label">
+    ${label}
+    </div>
 
-</div>
-`);
+    <div class="combo-value">
+    ${safe(x[key])}
+    </div>
 
-}
+   </div>
 
+   `;
 
-/* PGA */
+  }
 
-if(x.PGA){
+ });
 
-items.push(`
-<div class="combo-item">
 
-<div class="combo-label">
-PGA
-</div>
+ const wifiKeys=Object.keys(x)
+  .filter(k=>k.toLowerCase().includes("wifi"));
 
-<div class="combo-value">
-${safe(x.PGA)}
-</div>
+ if(wifiKeys.length){
 
-</div>
-`);
+  html+=`
 
-}
+  <div class="combo-item">
 
+   <div class="combo-label">
+   📶 WIFI
+   </div>
 
-/* Memory */
+   <div class="combo-value">
 
-if(x.Memory){
+   ${
+    wifiKeys
+    .map(k=>safe(k)+"："+safe(x[k]))
+    .join("\n")
+   }
 
-items.push(`
-<div class="combo-item">
+   </div>
 
-<div class="combo-label">
-MEMORY
-</div>
+  </div>
 
-<div class="combo-value">
-${safe(x.Memory)}
-</div>
+  `;
 
-</div>
-`);
+ }
 
-}
 
+ const lanKeys=Object.keys(x)
+  .filter(k=>k.toLowerCase().includes("lan"));
 
-/* Diplexer */
+ if(lanKeys.length){
 
-if(x.Diplexer){
+  html+=`
 
-items.push(`
-<div class="combo-item combo-wide">
+  <div class="combo-item">
 
-<div class="combo-label">
-RF / DIPLEXER
-</div>
+   <div class="combo-label">
+   🌐 LAN
+   </div>
 
-<div class="combo-value">
-${safe(x.Diplexer)}
-</div>
+   <div class="combo-value">
 
-</div>
-`);
+   ${
+    lanKeys
+    .map(k=>safe(k)+"："+safe(x[k]))
+    .join("\n")
+   }
 
-}
+   </div>
 
+  </div>
 
-/* WiFi */
+  `;
 
-const wifiKeys=Object.keys(x).filter(k=>
-k.toLowerCase().includes("wifi")
-);
+ }
 
-if(wifiKeys.length){
 
-let wifiText=wifiKeys.map(k=>
-`${safe(k)}：${safe(x[k])}`
-).join("<br>");
+ if(x.Voice){
 
-items.push(`
-<div class="combo-item combo-wide">
+  html+=`
 
-<div class="combo-label">
-📶 WIFI
-</div>
+  <div class="combo-item">
 
-<div class="combo-value">
-${wifiText}
-</div>
+   <div class="combo-label">
+   ☎️ VOICE
+   </div>
 
-</div>
-`);
+   <div class="combo-value">
+   ${safe(x.Voice)}
+   </div>
 
-}
+  </div>
 
+  `;
 
-/* LAN */
+ }
 
-const lanKeys=Object.keys(x).filter(k=>
-k.toLowerCase().includes("lan")
-);
 
-if(lanKeys.length){
+ if(!html)
+  return "";
 
-let lanText=lanKeys.map(k=>
-`${safe(k)}：${safe(x[k])}`
-).join("<br>");
 
-items.push(`
-<div class="combo-item">
+ return `
 
-<div class="combo-label">
-🌐 LAN
-</div>
+ <div class="combo">
 
-<div class="combo-value">
-${lanText}
-</div>
+  <div class="combo-title">
+  🧩 Hardware 組合
+  </div>
 
-</div>
-`);
+  ${html}
 
-}
+ </div>
 
-
-/* Voice */
-
-if(x.Voice){
-
-items.push(`
-<div class="combo-item">
-
-<div class="combo-label">
-☎️ VOICE
-</div>
-
-<div class="combo-value">
-${safe(x.Voice)}
-</div>
-
-</div>
-`);
-
-}
-
-
-if(!items.length)
-return "";
-
-return `
-
-<div class="combo">
-
-<div class="combo-title">
-🧩 Hardware 組合
-</div>
-
-<div class="combo-grid">
-
-${items.join("")}
-
-</div>
-
-</div>
-`;
+ `;
 
 }
 
 
 /* =========================
-   SHOW HARDWARE
+   QUERY PAGE
 ========================= */
 
-function show(){
+function showQuery(){
 
-const x=HITRON_DATA[+model.value];
+ app.innerHTML=`
 
-if(!x)return;
+ <div class="wrap">
 
-const groups={
+  <div class="card">
 
-model:[],
-processing:[],
-rf:[],
-connectivity:[],
-other:[]
+   <div class="top">
 
-};
+    <div>
 
+     <span class="badge">
+     Hardware Query
+     </span>
 
-Object.keys(x).forEach(key=>{
+     <h1>
+     Model 搜尋
+     </h1>
 
-if(key==="model" || !x[key])
-return;
+    </div>
 
-const type=getCategory(key);
+    <button
+     id="logout"
+     class="logout">
 
-groups[type].push({
+     登出
 
-key:key,
-value:x[key]
+    </button>
 
-});
+   </div>
 
-});
+   <input
+    id="search"
+    placeholder="🔎 輸入 Model，例如 CODA6011UV">
 
+   <select id="model"></select>
 
-let html=`
+  </div>
 
-<div class="card">
+  <div id="detail"></div>
 
-<div class="model-title">
-${safe(x.model)}
-</div>
+ </div>
 
-<p class="muted">
-${safe(x.Product||"")}
-</p>
-
-${hardwareCombo(x)}
-
-`;
+ `;
 
 
-/* =========================
-   CATEGORY RENDER
-========================= */
-
-[
-"model",
-"processing",
-"rf",
-"connectivity",
-"other"
-
-].forEach(type=>{
-
-if(!groups[type].length)
-return;
-
-html+=`
-
-<div class="section">
-
-<div class="section-title">
-${title(type)}
-</div>
-
-<div class="grid">
-
-`;
-
-groups[type].forEach(item=>{
-
-html+=`
-
-<div class="hw">
-
-<b>
-${safe(item.key)}
-</b>
-
-<div>
-${safe(item.value)}
-</div>
-
-</div>
-
-`;
-
-});
-
-html+=`
-
-</div>
-</div>
-
-`;
-
-});
+ const search=document.getElementById("search");
+ const select=document.getElementById("model");
+ const detail=document.getElementById("detail");
 
 
-html+=`
+ document.getElementById("logout").onclick=()=>{
 
-</div>
-`;
+  sessionStorage.removeItem("hitronLogin");
 
-detail.innerHTML=html;
+  login();
+
+ };
+
+
+ function renderList(){
+
+  const q=search.value.trim().toLowerCase();
+
+  const list=HITRON_DATA.filter(x=>{
+
+   return String(x.model||"")
+    .toLowerCase()
+    .includes(q)
+
+    ||
+
+    String(x.Product||"")
+    .toLowerCase()
+    .includes(q);
+
+  });
+
+
+  if(!list.length){
+
+   select.innerHTML="";
+
+   detail.innerHTML=`
+
+   <div class="card">
+
+    <h2>找不到資料</h2>
+
+    <p class="muted">
+    請確認 Model 或 Product。
+    </p>
+
+   </div>
+
+   `;
+
+   return;
+
+  }
+
+
+  select.innerHTML=list
+   .map(x=>{
+
+    const index=HITRON_DATA.indexOf(x);
+
+    return `
+
+    <option value="${index}">
+    ${safe(x.model)}
+    </option>
+
+    `;
+
+   })
+   .join("");
+
+
+  renderModel();
+
+ }
+
+
+ function renderModel(){
+
+  const x=HITRON_DATA[
+   Number(select.value)
+  ];
+
+  if(!x)
+   return;
+
+
+  const groups={
+
+   model:[],
+   processing:[],
+   rf:[],
+   connectivity:[],
+   other:[]
+
+  };
+
+
+  Object.keys(x).forEach(key=>{
+
+   if(key==="model")
+    return;
+
+   if(x[key]===undefined ||
+      x[key]===null ||
+      x[key]==="")
+    return;
+
+   const type=category(key);
+
+   groups[type].push({
+
+    key:key,
+    value:x[key]
+
+   });
+
+  });
+
+
+  let html=`
+
+  <div class="card">
+
+   <div class="model-title">
+   ${safe(x.model)}
+   </div>
+
+   <p class="muted">
+   ${safe(x.Product||"")}
+   </p>
+
+   ${hardwareCombo(x)}
+
+  `;
+
+
+  [
+   "model",
+   "processing",
+   "rf",
+   "connectivity",
+   "other"
+
+  ].forEach(type=>{
+
+   if(!groups[type].length)
+    return;
+
+
+   html+=`
+
+   <div class="section">
+
+    <div class="section-title">
+    ${categoryTitle(type)}
+    </div>
+
+    <div class="hw-grid">
+
+   `;
+
+
+   groups[type].forEach(item=>{
+
+    html+=`
+
+    <div class="hw">
+
+     <div class="hw-label">
+     ${safe(item.key)}
+     </div>
+
+     <div class="hw-value">
+     ${safe(item.value)}
+     </div>
+
+    </div>
+
+    `;
+
+   });
+
+
+   html+=`
+
+    </div>
+
+   </div>
+
+   `;
+
+  });
+
+
+  html+=`
+
+  </div>
+
+  `;
+
+
+  detail.innerHTML=html;
+
+ }
+
+
+ search.oninput=renderList;
+
+ select.onchange=renderModel;
+
+ renderList();
 
 }
-
-
-/* =========================
-   EVENTS
-========================= */
-
-search.oninput=fill;
-
-model.onchange=show;
 
 
 /* =========================
    START
 ========================= */
 
-if(sessionStorage.ok==="1")
-query();
-else
-login();
+if(
+ sessionStorage.getItem("hitronLogin")==="1"
+){
 
+ showQuery();
 
-/* =========================
-   SERVICE WORKER
-========================= */
+}else{
 
-if("serviceWorker" in navigator){
-
-navigator.serviceWorker.register("sw.js");
+ login();
 
 }
+
+
+/*
+  注意：
+  這個版本故意不註冊 Service Worker。
+  等功能確認正常後再重新加入。
+*/
 
 </script>
 
