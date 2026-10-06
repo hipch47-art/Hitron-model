@@ -1,6 +1,438 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Hitron HW"><link rel="manifest" href="manifest.webmanifest"><title>Hitron Hardware Query</title><style>*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f3f5f8;color:#172033}.wrap{max-width:760px;margin:auto;padding:24px 16px 50px}.card{background:white;border-radius:18px;padding:20px;box-shadow:0 6px 24px #00000010;margin-bottom:16px}h1{font-size:26px;margin:4px 0 8px}.muted{color:#687386}.login{min-height:85vh;display:flex;align-items:center;justify-content:center}.login .card{width:100%;max-width:430px}.logo{width:64px;height:64px;border-radius:18px;background:#0b5cff;color:white;font-size:38px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:18px}input,select,button{width:100%;height:48px;border:1px solid #d9dee8;border-radius:12px;padding:0 14px;font-size:16px;background:white}button{background:#0b5cff;color:white;border:0;font-weight:700;margin-top:12px}.err{color:#c62828;margin-top:10px;display:none}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.logout{width:auto;padding:0 14px;background:#eef2f7;color:#263247;margin:0}.search{margin:14px 0}.grid{display:grid;grid-template-columns:1fr;gap:10px}.hw{border:1px solid #e3e7ee;border-radius:14px;padding:13px}.hw b{display:block;font-size:13px;color:#687386;margin-bottom:5px}.hw div{white-space:pre-wrap;word-break:break-word;line-height:1.45}.badge{display:inline-block;background:#eaf1ff;color:#0b5cff;border-radius:999px;padding:6px 10px;font-weight:700;font-size:13px}@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}</style></head><body><div id="app"></div><script src="data.js"></script><script>
-const app=document.getElementById('app');
-function login(){app.innerHTML=`<div class="wrap login"><div class="card"><div class="logo">H</div><h1>Hitron Hardware Query</h1><p class="muted">公司硬體資料查詢</p><input id="pw" type="password" placeholder="輸入測試密碼" autocomplete="current-password"><button id="go">登入</button><div id="err" class="err">密碼錯誤</div><p class="muted" style="font-size:12px;margin-top:16px">⚠️ 這是第一版介面原型，尚未連接真正的公司帳號驗證。</p></div></div>`;document.getElementById('go').onclick=()=>{if(document.getElementById('pw').value==='hitron-demo'){sessionStorage.ok='1';query()}else document.getElementById('err').style.display='block'};document.getElementById('pw').onkeydown=e=>{if(e.key==='Enter')document.getElementById('go').click()}}
-function query(){app.innerHTML=`<div class="wrap"><div class="card"><div class="top"><div><span class="badge">Hardware Query</span><h1>Model 查詢</h1></div><button class="logout" id="out">登出</button></div><input class="search" id="s" placeholder="搜尋 Model / Product"><select id="m"></select></div><div id="detail"></div></div>`;document.getElementById('out').onclick=()=>{sessionStorage.removeItem('ok');login()};const s=document.getElementById('s'),m=document.getElementById('m');function fill(){let q=s.value.toLowerCase();let a=HITRON_DATA.filter(x=>x.model.toLowerCase().includes(q)||(x.Product||'').toLowerCase().includes(q));m.innerHTML=a.map(x=>`<option value="${HITRON_DATA.indexOf(x)}">${x.model}</option>`).join('');show()}function show(){let x=HITRON_DATA[+m.value]||HITRON_DATA[0];if(!x)return;let keys=Object.keys(x).filter(k=>k!=='model');document.getElementById('detail').innerHTML=`<div class="card"><h2 style="margin-top:0">${x.model}</h2><p class="muted">${x.Product||''}</p><div class="grid">${keys.filter(k=>x[k]).map(k=>`<div class="hw"><b>${k}</b><div>${String(x[k]).replace(/</g,'&lt;')}</div></div>`).join('')}</div></div>`}s.oninput=fill;m.onchange=show;fill()}
-if(sessionStorage.ok==='1')query();else login();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
-</script></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Hitron HW">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Hitron Hardware Query</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#f3f5f8;
+color:#172033
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:24px 16px 50px
+}
+
+.card{
+background:white;
+border-radius:18px;
+padding:20px;
+box-shadow:0 6px 24px #00000010;
+margin-bottom:16px
+}
+
+h1{
+font-size:26px;
+margin:4px 0 8px
+}
+
+h2{
+font-size:22px
+}
+
+.muted{
+color:#687386
+}
+
+.login{
+min-height:85vh;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.login .card{
+width:100%;
+max-width:430px
+}
+
+.logo{
+width:64px;
+height:64px;
+border-radius:18px;
+background:#0b5cff;
+color:white;
+font-size:38px;
+font-weight:800;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:18px
+}
+
+input,select,button{
+width:100%;
+height:48px;
+border:1px solid #d9dee8;
+border-radius:12px;
+padding:0 14px;
+font-size:16px;
+background:white
+}
+
+button{
+background:#0b5cff;
+color:white;
+border:0;
+font-weight:700;
+margin-top:12px
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px
+}
+
+.logout{
+width:auto;
+padding:0 14px;
+background:#eef2f7;
+color:#263247;
+margin:0
+}
+
+.search{
+margin:14px 0
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr;
+gap:10px
+}
+
+.hw{
+border:1px solid #e3e7ee;
+border-radius:14px;
+padding:13px
+}
+
+.hw b{
+display:block;
+font-size:13px;
+color:#687386;
+margin-bottom:5px
+}
+
+.hw div{
+white-space:pre-wrap;
+word-break:break-word;
+line-height:1.45
+}
+
+.badge{
+display:inline-block;
+background:#eaf1ff;
+color:#0b5cff;
+border-radius:999px;
+padding:6px 10px;
+font-weight:700;
+font-size:13px
+}
+
+@media(min-width:620px){
+.grid{
+grid-template-columns:1fr 1fr
+}
+}
+</style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script src="data.js"></script>
+
+<script>
+
+const app=document.getElementById("app");
+
+function login(){
+
+app.innerHTML=`
+
+<div class="wrap login">
+
+<div class="card">
+
+<div class="logo">H</div>
+
+<h1>Hitron Hardware Query</h1>
+
+<p class="muted">
+公司硬體資料查詢
+</p>
+
+<input
+id="pw"
+type="password"
+placeholder="輸入查詢密碼"
+autocomplete="current-password">
+
+<button id="go">
+登入
+</button>
+
+<div
+id="err"
+style="color:#c62828;margin-top:10px;display:none">
+密碼錯誤
+</div>
+
+<p
+class="muted"
+style="font-size:12px;margin-top:16px">
+
+🔐 Hardware Query System
+
+</p>
+
+</div>
+
+</div>
+
+`;
+
+document.getElementById("go").onclick=()=>{
+
+/*
+目前先使用內建測試密碼。
+正式公司帳號驗證之後再接。
+*/
+
+if(document.getElementById("pw").value==="hitron-demo"){
+
+sessionStorage.ok="1";
+
+query();
+
+}else{
+
+document.getElementById("err").style.display="block";
+
+}
+
+};
+
+document.getElementById("pw").onkeydown=e=>{
+
+if(e.key==="Enter"){
+
+document.getElementById("go").click();
+
+}
+
+};
+
+}
+
+
+function query(){
+
+app.innerHTML=`
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="top">
+
+<div>
+
+<span class="badge">
+Hardware Query
+</span>
+
+<h1>
+Model 搜尋
+</h1>
+
+</div>
+
+<button
+class="logout"
+id="out">
+登出
+</button>
+
+</div>
+
+<input
+class="search"
+id="s"
+placeholder="🔎 輸入 Model，例如 CODA6011UV">
+
+<select id="m"></select>
+
+</div>
+
+<div id="detail"></div>
+
+</div>
+
+`;
+
+document.getElementById("out").onclick=()=>{
+
+sessionStorage.removeItem("ok");
+
+login();
+
+};
+
+const s=document.getElementById("s");
+
+const m=document.getElementById("m");
+
+
+function fill(){
+
+let q=s.value.trim().toLowerCase();
+
+let a=HITRON_DATA.filter(x=>
+
+(x.model||"").toLowerCase().includes(q)
+
+||
+
+(x.Product||"").toLowerCase().includes(q)
+
+);
+
+m.innerHTML=a.map(x=>
+
+`<option value="${HITRON_DATA.indexOf(x)}">
+
+${x.model}
+
+</option>`
+
+).join("");
+
+show();
+
+}
+
+
+function show(){
+
+let x=HITRON_DATA[+m.value];
+
+if(!x){
+
+document.getElementById("detail").innerHTML=`
+
+<div class="card">
+
+<h2>找不到資料</h2>
+
+<p class="muted">
+
+請確認 Model 名稱。
+
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+let keys=Object.keys(x).filter(k=>
+
+k!=="model" && x[k]
+
+);
+
+
+document.getElementById("detail").innerHTML=`
+
+<div class="card">
+
+<h2 style="margin-top:0">
+
+${x.model}
+
+</h2>
+
+<p class="muted">
+
+${x.Product||""}
+
+</p>
+
+<div class="grid">
+
+${keys.map(k=>`
+
+<div class="hw">
+
+<b>${k}</b>
+
+<div>
+
+${String(x[k]).replace(/</g,"&lt;")}
+
+</div>
+
+</div>
+
+`).join("")}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+s.oninput=fill;
+
+m.onchange=show;
+
+fill();
+
+}
+
+
+if(sessionStorage.ok==="1"){
+
+query();
+
+}else{
+
+login();
+
+}
+
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("sw.js");
+
+}
+
+</script>
+
+</body>
+</html>
