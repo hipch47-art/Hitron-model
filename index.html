@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hitron Model">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Hitron Model Query</title>
+<style>
+:root{color-scheme:light;--bg:#f4f6fa;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#2563eb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang TC",sans-serif;color:var(--text)}
+main{max-width:720px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 16px 32px}
+h1{font-size:27px;margin:4px 0 4px}.sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}input,select{width:100%;min-height:48px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 14px;font-size:16px;outline:none}input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #2563eb22}
+.grid{display:grid;grid-template-columns:1fr;gap:10px}.row{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:13px}.key{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}.val{font-size:15px;line-height:1.5;white-space:pre-line;overflow-wrap:anywhere}
+.badge{display:inline-block;font-size:12px;background:#eef2ff;color:#3730a3;border-radius:999px;padding:5px 9px;margin-top:5px}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}button{border:0;background:#eef2ff;border-radius:10px;padding:8px 10px;font-weight:600}.empty{text-align:center;color:var(--muted);padding:30px 10px}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Hitron Model Query</h1>
+  <div class="sub">產品機種 → 硬體組合查詢</div>
+  <section class="panel">
+    <label for="search">搜尋 Model / Product</label>
+    <input id="search" placeholder="例如 CODA6011、WiFi7、DOCSIS 4.0…" autocomplete="off">
+  </section>
+  <section class="panel">
+    <label for="model">產品名稱</label>
+    <select id="model"><option value="">請選擇產品機種</option></select>
+  </section>
+  <div id="result" class="empty">請選擇產品機種</div>
+</main>
+<script>
+const DATA=[{"model":"CODA6011UV","Product":"Ultra 3.1 Wifi7 dual-band Gateway","Processor":"MXL25640+MXL28310","Tuner":"MXL28310","PGA":"MxL236","Memory":"DDR4 2GB","Diplexer":"Switchable:  5-85/5-204MHz\nUS:5-85/5-204\nDS:108-1218/258-1218","Wifi IC 2G":"MxL31708","Wifi IC 5G":"MxL31708","Wifi IC 6G":"MxL31708","Wifi 2G FEM":"2.4G: RTC66274","WiFi 5G FEM":"5G: RTC66572","WiFi 2G":"2.4G: 4x4 802.11be","WiFi 5G":"5G:4x4 802.11be","10G LAN":"2x 10G(RTL8261BE-VB)","2.5G LAN":"2x 2.5G(GPY211)","Voice":"2x FXS(PEF42078)"},{"model":"CODA6011U","Product":"Ultra 3.1 Wifi7 dual-band Gateway","Processor":"MXL25640+MXL28310","Tuner":"MXL28310","PGA":"MxL236","Memory":"DDR4 2GB","Diplexer":"Switchable:  5-85/5-204MHz\nUS:5-85/5-204\nDS:108-1218/258-1218","Wifi IC 2G":"MxL31708","Wifi IC 5G":"MxL31708","Wifi IC 6G":"MxL31708","Wifi 2G FEM":"2.4G: RTC66274","WiFi 5G FEM":"5G: RTC66572","WiFi 2G":"2.4G: 4x4 802.11be","WiFi 5G":"5G:4x4 802.11be","10G LAN":"1x 10G(RTL8261BE-VB)","2.5G LAN":"2x 2.5G(GPY211)"},{"model":"CODA6021U","Product":"Ultra 3.1  Wifi7 Tri-band Gateway","Processor":"MXL25640+MXL28310","Tuner":"MXL28310","PGA":"MxL236","Memory":"DDR4 2GB","Diplexer":"Switchable:  5-85/5-204MHz\nUS:5-85/5-204\nDS:108-1218/258-1218","Wifi IC 2G":"MxL31712","Wifi IC 5G":"MxL31712","Wifi IC 6G":"MxL31712","Wifi 2G FEM":"2.4G: RTC66274","WiFi 5G FEM":"5G: RTC66572","WiFi 6G FEM":"6G: RTC66927","WiFi 2G":"2.4G: 4x4 802.11be","WiFi 5G":"5G:4x4 802.11be","WiFi 6G":"6G:4x4 802.11be","10G LAN":"2x 10G(RTL8261BE-VB)","2.5G LAN":"2x 2.5G(GPY211)"},{"model":"CODA6021","Product":"DOCSIS 4.0 Wifi7 Tri-band Gateway","Processor":"MXL25640+MXL28400","Tuner":"MXL28400","PGA":"MxL236+MxL238","Memory":"DDR4 2GB","Diplexer":"Ultra-high switchable 85/204/396\nUS:5-85/5-204/5-85+108-396\nDS:108-1218/258-1794/492-1794","Wifi IC 2G":"MxL31712","Wifi IC 5G":"MxL31712","Wifi IC 6G":"MxL31712","Wifi 2G FEM":"2.4G: RTC66274","WiFi 5G FEM":"5G: RTC66572","WiFi 6G FEM":"6G: RTC66927","WiFi 2G":"2.4G: 4x4 802.11be","WiFi 5G":"5G:4x4 802.11be","WiFi 6G":"6G:4x4 802.11be","10G LAN":"2x 10G(RTL8261BE-VB)","2.5G LAN":"2x 2.5G(GPY211)"},{"model":"EN2251-HSP","Product":"DOCSIS3.1 eMTA Cable Modem","Processor":"FHCE2712M","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 512MB","Diplexer":"US: 5-85/5-204 switchable\nDS:258-1218 fixed","2.5G LAN":"1x 2.5G(GPY212)","Voice":"2x FXS(PEF42078)"},{"model":"EN2251 PC20","Product":"DOCSIS3.1 eMTA Cable Modem","Processor":"FHCE2703","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 512MB","Diplexer":"US: 5-85/5-204 switchable\nDS:258-1218 fixed","2.5G LAN":"1x 2.5G(GPY212)","Voice":"2x FXS(PEF42078)"},{"model":"EN2251 PC15","Product":"DOCSIS3.1 eMTA Cable Modem","Processor":"FHCE2703","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 512MB","Diplexer":"US: 5-85/5-204 switchable\nDS:258-1218 fixed","2.5G LAN":"1x 2.5G(GPY212)","Voice":"2x FXS(PEF42078)"},{"model":"EN2251 HUS","Product":"DOCSIS3.1 eMTA Cable Modem","Processor":"FHCE2703","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 512MB","Diplexer":"US: 5-85/5-204 switchable\nDS:258-1218 fixed","2.5G LAN":"1x 2.5G(GPY212)","Voice":"2x FXS(PEF42078)"},{"model":"ODIN2101","Product":"DOCSIS3.1 Cable Modem Module","Processor":"FHCE2753i","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB","Diplexer":"US: 5-85/5-204 switchable\nDS:108-1218/258-1218 switchable","2.5G LAN":"1x 2.5G(GPY215)","1G LAN":"1 x 1G(MXL86110I)"},{"model":"CHITA","Product":"D3.1 WeMTA","Processor":"FHCE2712-R3S9","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB 512MBx2","Diplexer":"US: 5-85/5-204 switchable\nDS:108-1218/258-1218 switchable","Wifi IC 2G":"QCA-9987","Wifi IC 5G":"QCA-9988","Wifi 2G FEM":"2G:SKY85325-11","WiFi 5G FEM":"5G:SKY85735-11","WiFi 2G":"2.4G: 3x3 802.11ac","WiFi 5G":"5G: 4x4 802.11ac","1G LAN":"4x1G(GSW140A3MC)","Voice":"2x FXS(PEF42078VTV11)"},{"model":"CODA5810Q","Product":"DOCSIS 3.1 Wifi6 Dual-band Gateway","Processor":"FHCE2752","Tuner":"MxL277/MxL278","PGA":"MxL236","Memory":"DDR3L 1GB 512MB*2","Diplexer":"US: 5-85/5-204 switchable\nDS:108-1002/258-1218 switchable","Wifi IC 2G":"QCN-9024-0-MSP234-TR-01-0","Wifi IC 5G":"QCN-9024-0-MSP234-TR-01-0","Wifi 2G FEM":"RTC66226","WiFi 5G FEM":"RTC7676D","WiFi 2G":"2.4G: 4x4 802.11ax","WiFi 5G":"5G:4x4 802.11ax","2.5G LAN":"1x 2.5G(QCA-8081-0-56MQFN-TR-02-0)","1G LAN":"2x 1G(GSW140A3MC)"},{"model":"CODA5519E","Product":"DOCSIS 3.1 EMTA","Processor":"FHCE2703","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB 512MB*2","Diplexer":"US: 5-85/5-204 switchable\nDS:108-1218/258-1218 switchable","2.5G LAN":"1x 2.5G(GPY212C0VC)","1G LAN":"3x 1G(GSW140A3MC/GSW140A3LC)","Voice":"2x FXS(PEF42078VTV11)"},{"model":"CODA5519W","Product":"DOCSIS 3.1 Wifi6 Dual-band and eMTA Gateway","Processor":"FHCE2752","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB 512MB*2","Diplexer":"US: 5-85/5-204 switchable\nDS:108-1218/258-1218 switchable","Wifi IC 2G":"WAV615B0BC","Wifi IC 5G":"WAV665B0BC","Wifi 2G FEM":"SKY85337-11","WiFi 5G FEM":"SKY85755-11","WiFi 2G":"2.4G: 4x4 802.11ax","WiFi 5G":"5G:4x4 802.11ax","2.5G LAN":"1x 2.5G(GPY211C0VC)","1G LAN":"3x 1G(GSW140A3MC/GSW140A3LC)","Voice":"2x FXS(PEF42078VTV11)"},{"model":"CODA-5712","Product":"DOCSIS 3.1 Wifi6 Dual-band Gateway","Processor":"FHCE2752M","Tuner":"MxL278","PGA":"MxL236","Memory":"DDR3L 1GB 512MB*2","Diplexer":"US: 5-85/5-204 switchable\nDS:258-1002 fixed","Wifi IC 2G":"WAV614A1LC/WAV614A1MC","Wifi IC 5G":"WAV624A1LC/WAV624A1MC","Wifi 2G FEM":"SKY85337-11","WiFi 5G FEM":"SKY85755-11","WiFi 2G":"2.4G: 4x4 802.11ax","WiFi 5G":"5G:4x4 802.11ax","2.5G LAN":"1x 2.5G(GPY211C0VC)","1G LAN":"2x 1G(GSW140A3MC/GSW140A3LC)"},{"model":"CODA-5519 Hub6","Product":"DOCSIS 3.1 Wifi6 Dual-band and eMTA Gateway","Processor":"FHCE2752","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB 512MB*2","Diplexer":"US: 5-85/5-204 switchable\nDS:108-1218/258-1218 switchable","Wifi IC 2G":"WAV614A1MC","Wifi IC 5G":"WAV624A1MC","Wifi 2G FEM":"SKY85337-11","WiFi 5G FEM":"SKY85755-11","WiFi 2G":"2.4G: 4x4 802.11ax","WiFi 5G":"5G:4x4 802.11ax","1G LAN":"3x 1G(GSW140A3MC)","Voice":"2x FXS(PEF42078VTV11)"},{"model":"CODA56 / CODA56-RES","Product":"DOCSIS3.1 Cable Modem","Processor":"FHCE2703","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 512MB","Diplexer":"5-42/5-85M switchable\nDS:108-1002 fixed","2.5G LAN":"1x 2.5G(GPY212)"},{"model":"COD57","Product":"DOCSIS3.1 Cable Modem","Processor":"FHCE2752M","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 512MB","Diplexer":"US: 5-85/5-204 switchable\nDS:258-1218 fixed","2.5G LAN":"1x 2.5G(GPY212)"},{"model":"COD57 EU / CODA57-TEF","Product":"DOCSIS3.1Cable Modem","Processor":"FHCE2703","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 512MB","Diplexer":"US: 5-85/5-204 switchable\nDS:108-1218/258-1218 switchable","2.5G LAN":"1x 2.5G(GPY212)"},{"model":"COD45 /CODA45 TPIA /CODA45 GCI","Product":"DOCSIS3.1 Cable Modem","Processor":"FHCE2703","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 512MB","Diplexer":"US: 5-85M switchable\nDS:108-1002 fixed","1G LAN":"2x1G(RTL8363SCC)"},{"model":"CMOA-45204G","Product":"DOCSIS3.1 Cable Modem","Processor":"FHCE2753i","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB","Diplexer":"US: 5-45/5-204M switchable\nDS:258-1218 fixed","1G LAN":"1x1G(MXL86111I)"},{"model":"CMOA-85204F","Product":"DOCSIS3.1 Cable Modem","Processor":"FHCE2753i","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB","Diplexer":"US: 5-85/5-204M switchable\nDS:108-1218/258-1218 MHz switchable","1G LAN":"1x1G(PEF7071VV16 )"},{"model":"CMOA-4285G V.A1","Product":"DOCSIS3.1 Cable Modem","Processor":"FHCE2753i","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB","Diplexer":"US: 5-85/5-42M switchable\nDS:108-1002 MHz","1G LAN":"1x1G(PEF7071VV16 )"},{"model":"CMOA-4285G V.B1","Product":"DOCSIS3.1 Cable Modem","Processor":"FHCE2753i","Tuner":"MxL277","PGA":"MxL236","Memory":"DDR3L 1GB","Diplexer":"US: 5-85/5-42M switchable\nDS:108-1002 MHz","1G LAN":"1x1G(MXL86111I)"},{"model":"CGNV5-S","Product":"D3.0 Cable WiFi 5 GW for Claro","Processor":"DHCE2652-SR278","Tuner":"MXL267D-AF-R","PGA":"MXL231-AG-R","Memory":"DDR3L 512MB","Diplexer":"US: 5-85 fixed\nDS:108-1002 fixed","Wifi IC 2G":"WAVE513","Wifi IC 5G":"WAVE523","Wifi 2G FEM":"2G:SKY85330-11","WiFi 5G FEM":"5G:SKY85717-21","WiFi 2G":"2.4G: 3x3 802.11n","WiFi 5G":"5G: 3x3 802.11ac","1G LAN":"4x1G(GSW141A3MC)","Voice":"2x FXS(PEF32002VTV12)"},{"model":"CGNV5-U","Product":"D3.0 Cable WiFi 6 Voice GW for CALA","Processor":"DHCE2652-SR278","Tuner":"MXL267D-AF-R","PGA":"MXL231-AG-R","Memory":"DDR3L 512MB","Diplexer":"US: 5-85 fixed\nDS:108-1002 fixed","Wifi IC 2G":"WAV654","Wifi IC 5G":"WAV654 (共用)","Wifi 2G FEM":"2G:SKY85331-11","WiFi 5G FEM":"5G:SKY85743-31","WiFi 2G":"2.4G: 2x2 802.11ax","WiFi 5G":"5G: 2x2 802.11ax","1G LAN":"4x1G(GSW141A3LC)","Voice":"2x FXS(PEF32002VTV12)"},{"model":"CGNV5-TFC","Product":"D3.0 Cable WiFi 5 GW for Telefonica","Processor":"DHCE2652-SR278","Tuner":"MXL267D-AF-R","PGA":"MXL231-AG-R","Memory":"DDR3L 512MB","Diplexer":"US: 5-85 fixed\nDS:108-1002 fixed","Wifi IC 2G":"WAVE513","Wifi IC 5G":"WAVE524","Wifi 2G FEM":"2G:SKY85330-11","WiFi 5G FEM":"5G:SKY85717-21","WiFi 2G":"2.4G: 3x3 802.11n","WiFi 5G":"5G: 4x4 802.11ac","1G LAN":"4x1G(GSW141A3LC)","Voice":"1x FXS (PEF32001VTV12)"}];
+const CATS=["Product", "Processor", "Tuner", "PGA", "Memory", "Diplexer", "Wifi IC 2G", "Wifi IC 5G", "Wifi IC 6G", "Wifi 2G FEM", "WiFi 5G FEM", "WiFi 2G", "WiFi 5G", "WiFi 6G", "10G LAN", "2.5G LAN", "1G LAN", "Voice"];
+const sel=document.getElementById('model'), search=document.getElementById('search'), result=document.getElementById('result');
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function fillOptions(filter='') {
+  const f=filter.trim().toLowerCase();
+  sel.innerHTML='<option value="">請選擇產品機種</option>';
+  DATA.forEach((x,i)=>{
+    const text=(x.model+' '+(x.Product||'')).toLowerCase();
+    if(!f || text.includes(f)) {
+      const o=document.createElement('option'); o.value=i; o.textContent=x.model; sel.appendChild(o);
+    }
+  });
+}
+function show(i) {
+  const x=DATA[Number(i)];
+  if(!x){result.className='empty';result.textContent='請選擇產品機種';return}
+  let html='<section class="panel"><div class="top"><div><h2 style="margin:0;font-size:21px">'+esc(x.model)+'</h2><div class="badge">'+esc(x.Product||'')+'</div></div></div></section><div class="grid">';
+  CATS.filter(k=>x[k]!==undefined && x[k]!=='').forEach(k=>{
+    html+='<article class="row '+(k==='Product'?'wide':'')+'"><div class="key">'+esc(k)+'</div><div class="val">'+esc(x[k])+'</div></article>';
+  });
+  html+='</div>'; result.className=''; result.innerHTML=html;
+}
+search.addEventListener('input',()=>{fillOptions(search.value); if(sel.options.length===2){sel.selectedIndex=1;show(sel.value)}});
+sel.addEventListener('change',()=>show(sel.value));
+fillOptions();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>
